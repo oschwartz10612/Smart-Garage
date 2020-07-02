@@ -16,7 +16,7 @@ bool toggle;
 
 void setup_wifi()
 {
-
+    digitalWrite(DOORPIN, LOW);
     delay(10);
     // We start by connecting to a WiFi network
     Serial.println();
@@ -80,6 +80,7 @@ void reconnect()
     // Loop until we're reconnected
     while (!client.connected())
     {
+        digitalWrite(DOORPIN, LOW);
         Serial.print("Attempting MQTT connection...");
         // Create a random client ID
         String clientId = "Garage_Cover-";
@@ -89,8 +90,8 @@ void reconnect()
         {
             Serial.println("connected");
             // Once connected, publish an announcement...
-            client.publish("home-assistant/garage_cover/availability", "goodintent");
-            client.publish("home-assistant/garage/availability", "goodintent");
+            client.publish("home-assistant/garage_cover/availability", "online");
+            client.publish("home-assistant/garage/availability", "online");
             // ... and resubscribe
             client.subscribe("home-assistant/garage_cover/set");
             client.subscribe("home-assistant/garage_cover/set_position");
